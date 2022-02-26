@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Notify Tips</title>
+
+<link rel="stylesheet" type="text/css" href="resources/bodyStyle.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+
+function haveBlank(str) {
+	
+	for(i=0; i<str.length; i++)
+		if(str.charAt(i) == ' ')
+			return true;
+	
+	return false;
+}
+
+function checkEmail(str) {
+	
+	for(i=0; i<str.length; i++)
+		if(str.charAt(i) == '@')
+			return true;
+	
+	return false;
+}
+
+function checkBirthday(str) {
+	
+	for(i=0; i<str.length; i++)
+		if( !(str.charAt(i) >= '0' && str.charAt(i) <= '9') )
+			return false;
+	
+	return true;
+}
+
+function checkNickname(str) {
+	
+	for(i=0; i<str.length; i++)
+		if( (str.charAt(i) >= '!' && str.charAt(i) <= '@')
+				|| (str.charAt(i) >= '[' && str.charAt(i) <= '.')
+				|| (str.charAt(i) >= '{' && str.charAt(i) <= '~')
+				|| (str.charAt(i) == ' ') )
+			return false;
+	
+	return true;
+}
+
+function Submit(fname) {
+	
+	var password1 = document.forms[fname].elements['password1'];
+	var password2 = document.forms[fname].elements['password2'];
+	var nickname = document.forms[fname].elements['nickname'];
+	
+	var phoneNumber1 = document.forms[fname].elements['phoneNumber1'];
+	var phoneNumber2 = document.forms[fname].elements['phoneNumber2'];
+	var phoneNumber3 = document.forms[fname].elements['phoneNumber3'];
+	
+	var email1 = document.forms[fname].elements['email1'];
+	var email2 = document.forms[fname].elements['email2'];
+	
+	var keywords = document.forms[fname].elements['keywords'];
+	
+	if (password1.value == ""){
+		alert('비밀번호를 입력해 주세요.');
+		password1.select();
+		password1.focus();
+		return false;
+	}
+	else if (nickname.value == ""){
+		alert('닉네임을 입력해 주세요.');
+		nickname.select();
+		nickname.focus();
+		return false;
+	}
+	else if (phoneNumber1.value == "" || phoneNumber2.value == "" || phoneNumber3.value == ""){
+		alert('폰번호를 입력해 주세요.');
+		phoneNumber1.select();
+		phoneNumber1.focus();
+		return false;
+	}
+	else if (email1.value == "" || email2.value == ""){
+		alert('이메일을 입력해 주세요.');
+		email1.select();
+		email1.focus();
+		return false;
+	}
+	else if (keywords.value == ""){
+		alert('선호하는 키워드를 입력해 주세요.');
+		keywords.select();
+		keywords.focus();
+		return false;
+	}
+	else if (password1.value != password2.value){
+		alert('비밀번호가 일치하지 않습니다.');
+		password2.select();
+		password2.focus();
+		return false;
+	}
+	else if ( haveBlank(password1.value) || haveBlank(email1.value) || haveBlank(email2.value) ){
+		alert('비밀번호랑 이메일에는 띄어쓰기가 들어가면 안됩니다.');
+		return false;
+	}
+	else if (checkNickname(nickname.value) == false) {
+		alert('닉네임에는 특수문자랑 띄어쓰기가 들어가면 안됩니다.');
+		nickname.select();
+		nickname.focus();
+		return false;
+	}
+	else {
+		alert('정상적으로 수정 되었습니다!');
+		username.disabled = false;
+		jumin1.disabled = false;
+		jumin2.disabled = false;
+		return true;
+	}
+
+}
+
+</script>
+
+</head>
+<body>
+	<h2>회원정보 수정</h2><br>
+	
+	<form name="join" action="/NotifyTips/ModifyServlet" method="post" onsubmit="return Submit('join');">
+		<table border=0 align="center">
+			<tr>
+				<td>아이디: 
+<!--userInfo_username -->
+				</td>
+			</tr>
+			<tr>
+				<td>비밀번호: </td>
+				<td><input type="password" id="password1" name="password1" maxlength="20" value="
+<!--userInfo_password -->
+"></td>
+			</tr>
+			<tr>
+				<td>비밀번호 확인: </td>
+				<td><input type="password" id="password2" name="password2" maxlength="20"></td>
+			</tr>
+			<tr>
+				<td>닉네임: </td>
+				<td>
+					<input type="text" id="nickname" name="nickname" maxlength="15" value="
+<!--userInfo_nickname -->
+">
+				</td>
+			</tr>
+			<tr>
+				<td>이메일: </td>
+				<td>
+					<input type="text" id="email1" name="email1" maxlength="20" value="
+<!--userInfo_email1 -->
+"> @ 
+					<input type="text" id="email2" name="email2" maxlength="40" value="
+<!--userInfo_email2 -->
+">
+				</td>
+			</tr>
+			<tr>
+				<td>선호하는 키워드: </td>
+				<td>
+					<input type="text" id="keywords" name="keywords" value="
+<!--userInfo_keywords -->
+" style="width: 500px; ">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center"><input type="submit" value="수정하기"> <input type="reset" value="초기화"></td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>
